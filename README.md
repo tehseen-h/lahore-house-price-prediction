@@ -52,8 +52,8 @@ A **Flask-based** web application that predicts real estate (house) prices in **
 
 1. **Clone the Repository**  
     ```
-    git clone https://github.com/<YourUsername>/<YourRepoName>.git
-    cd <YourRepoName>
+    git clone https://github.com/tehseen-h/lahore-house-price-prediction.git
+   
     ```
 
 2. **Create a Virtual Environment** (optional but recommended)  
