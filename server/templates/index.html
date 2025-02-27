@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lahore Price Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e8def8;
+            padding: 30px;
+        }
+
+        .header img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 20px 40px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #8e31c4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #7a28a8;
+            transform: scale(1.05);
+        }
+
+        .error {
+            border: 2px solid red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 15px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Logo -->
+    <div class="header">
+        <img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" alt="Home Logo">
+        <h2>Real Estate Price Prediction</h2>
+    </div>
+
+    <div class="form-container">
+        <form method="post" action="/predict" onsubmit="return validateForm()">
+            <!-- Type Dropdown -->
+            <div class="form-group">
+                <label for="type">Type:</label>
+                <select name="type" id="type" required>
+                    <option value="">Select Type</option>
+                    <option value="0">Flat</option>
+                    <option value="1">House</option>
+                </select>
+            </div>
+
+            <!-- Location Dropdown -->
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <select name="location" id="location" required>
+                    <option value="">Select Location</option>
+                    {% for location in locations %}
+                        <option value="{{ location }}">{{ location }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Area Input -->
+            <div class="form-group">
+                <label for="area">Area:</label>
+                <input type="number" id="area" name="area_value" placeholder="Enter area" required>
+                <span id="area-error" class="error-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="area_unit">Unit:</label>
+                <select name="area_unit" id="area_unit" required>
+                    <option value="">Select Unit</option>
+                    <option value="Marla">Marla</option>
+                    <option value="Kanal">Kanal</option>
+                </select>
+            </div>
+
+            <!-- Baths Dropdown -->
+            <div class="form-group">
+                <label for="baths">Baths:</label>
+                <select name="baths" id="baths" required>
+                    <option value="">Select Baths</option>
+                    {% for i in range(1, 11) %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Beds Dropdown -->
+            <div class="form-group">
+                <label for="beds">Beds:</label>
+                <select name="beds" id="beds" required>
+                    <option value="">Select Beds</option>
+                    {% for i in range(1, 12) %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        <!-- Display Prediction -->
+        <h2 style="text-align: center;">{{ prediction_text }}</h2>
+    </div>
+
+    <!-- JavaScript for Client-Side Validation -->
+    <script>
+        function validateForm() {
+            const areaInput = document.getElementById('area');
+            const areaError = document.getElementById('area-error');
+
+            if (areaInput.value <= 0) {
+                areaInput.classList.add('error');
+                areaError.innerText = "Area must be a positive number.";
+                return false;  // Prevent form submission
+            } else {
+                areaInput.classList.remove('error');
+                areaError.innerText = "";
+                return true;  // Allow form submission
+            }
+        }
+    </script>
+</body>
+</html>
